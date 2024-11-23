@@ -35,10 +35,10 @@ struct WeatherHomeRow: View {
                 
                 Text(formatTemperature(weather.main.temp))
                     .font(.system(size: 70, weight: .semibold))
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 Text("°")
                     .font(.system(size: 30, weight: .light))
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 
             }
             

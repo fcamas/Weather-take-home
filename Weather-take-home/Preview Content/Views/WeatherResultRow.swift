@@ -22,7 +22,7 @@ struct WeatherResultRow: View {
                     HStack(alignment: .top, spacing: 0) {
                         Text(temperatureFormatter(resultWeather.main.temp))
                             .font(.system(size: 42, weight: .semibold))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                 }
                 Spacer()

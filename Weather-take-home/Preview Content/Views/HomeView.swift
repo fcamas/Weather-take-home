@@ -68,7 +68,8 @@ struct HomeView: View {
                         // Search result.
                         if !searchText.isEmpty {
                             ZStack(alignment: .top) {
-                                Color.white
+                                Color(UIColor.systemBackground)
+                                            .edgesIgnoringSafeArea(.all) 
                                 LazyVGrid(columns: [GridItem(.flexible())]){
                                     ForEach(viewModel.weatherSuggestion, id: \.self) { suggestion in
                                         WeatherResultRow(
