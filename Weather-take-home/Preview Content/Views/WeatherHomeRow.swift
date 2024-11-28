@@ -9,6 +9,10 @@ import SwiftUI
 
 struct WeatherHomeRow: View {
     let weather: Weather
+    var viewModel: WeatherViewModel
+    
+    @State var isCelcius: Bool = true
+    
     var body: some View {
         VStack(spacing: 16) {
             
@@ -40,6 +44,22 @@ struct WeatherHomeRow: View {
                     .font(.system(size: 30, weight: .light))
                     .foregroundColor(.primary)
                 
+            }
+            
+            Toggle(isOn: $isCelcius) {
+            }.onChange(of: isCelcius) { newValue, _ in
+                if isCelcius {
+                    Task{
+                        //await viewModel.fetchWeather(for: weather.name , tempUnit: .celsius)
+                        viewModel.saveWeatherToUserDefaults(weather.name, tempUnit: .celsius)
+                    }
+                } else {
+                    Task{
+                        //await viewModel.fetchWeather(for: weather.name , tempUnit: .fahrenheit)
+                        viewModel.saveWeatherToUserDefaults(weather.name, tempUnit: .fahrenheit)
+                        
+                    }
+                }
             }
             
             // Weather details section.
@@ -80,8 +100,7 @@ struct WeatherHomeRow: View {
     }
     
     private func formatTemperature(_ temp: Double) -> String {
-        let fahrenheitTemp = (temp * 9 / 5) + 32
-        return String(format: "%.0f", fahrenheitTemp)
+        return String(format: "%.0f", temp)
         
     }
 }

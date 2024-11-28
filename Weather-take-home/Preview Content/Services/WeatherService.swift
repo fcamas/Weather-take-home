@@ -9,7 +9,12 @@
 import Foundation
 
 protocol WeatherServiceProtocol {
-    func fetchWeather(for city: String) async throws -> Weather
+    func fetchWeather(for city: String, tempUnit: TempUnit) async throws -> Weather
+}
+
+enum TempUnit: String {
+    case celsius = "metric"
+    case fahrenheit = "imperial"
 }
 
 struct WeatherAPI {
@@ -24,8 +29,8 @@ class WeatherService: WeatherServiceProtocol {
         self.session = session
     }
 
-    func fetchWeather(for city: String) async throws -> Weather {
-        let urlString = "\(WeatherAPI.baseURL)?q=\(city)&appid=\(WeatherAPI.apiKey)&units=metric"
+    func fetchWeather(for city: String, tempUnit: TempUnit) async throws -> Weather {
+        let urlString = "\(WeatherAPI.baseURL)?q=\(city)&appid=\(WeatherAPI.apiKey)&units=\(tempUnit.rawValue)"
         guard let url = URL(string: urlString) else {
             throw WeatherServiceError.invalidResponse
         }

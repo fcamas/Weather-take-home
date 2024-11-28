@@ -20,8 +20,8 @@ struct HomeView: View {
                 ZStack {
                     VStack {
                         if let weather = viewModel.savedWeather {
-                            
-                            WeatherHomeRow(weather: weather)
+        
+                            WeatherHomeRow(weather: weather, viewModel: viewModel)
                         }
                     }
                     // "No City Selected" message.
@@ -59,7 +59,7 @@ struct HomeView: View {
                             )
                             .onChange(of: searchText) {
                                 Task{
-                                    await viewModel.fetchWeather(for: searchText)
+                                    await viewModel.fetchWeather(for: searchText, tempUnit: .celsius)
                                 }
                             }
                         
@@ -79,7 +79,7 @@ struct HomeView: View {
                                         .onTapGesture {
                                             selectedCity = suggestion.name
                                             searchText = ""
-                                            viewModel.saveWeatherToUserDefaults(suggestion)
+                                            viewModel.saveWeatherToUserDefaults(suggestion.name, tempUnit: .celsius)
                                             viewModel.savedWeather = suggestion
                                         }
                                     }
@@ -93,7 +93,7 @@ struct HomeView: View {
                 }
                 .onAppear {
                     // Fetch the last saved city's weather.
-                    viewModel.loadWeatherFromUserDefaults()
+                    viewModel.loadWeatherFromUserDefaults(tempUnit: .celsius)
                 }
             }
             .padding(.horizontal, 24)
@@ -102,7 +102,7 @@ struct HomeView: View {
     
     private func fetchWeather(for city: String) {
         Task{
-            await viewModel.fetchWeather(for: city)
+            await viewModel.fetchWeather(for: city, tempUnit: .celsius)
         }
     }
 }
